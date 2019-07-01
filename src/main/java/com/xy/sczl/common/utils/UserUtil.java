@@ -4,7 +4,7 @@ package com.xy.sczl.common.utils;
 import javax.servlet.http.HttpSession;
 
 import com.xy.sczl.common.constants.Constants;
-import com.xy.sczl.entity.UserInfo;
+import com.xy.sczl.entity.UserInfoEntity;
 
 
 /**
@@ -21,7 +21,7 @@ public class UserUtil {
      * @param session
      * @param user
      */
-    public static void saveUserToSession(HttpSession session, UserInfo user) {
+    public static void saveUserToSession(HttpSession session, UserInfoEntity user) {
         AdminUtil.deleteAdminFromSession(session);
         session.setAttribute(USER, user);
     }
@@ -32,9 +32,9 @@ public class UserUtil {
      * @param session
      * @return
      */
-    public static UserInfo getUserFromSession(HttpSession session) {
+    public static UserInfoEntity getUserFromSession(HttpSession session) {
         Object attribute = session.getAttribute(USER);
-        return attribute == null ? null : (UserInfo) attribute;
+        return attribute == null ? null : (UserInfoEntity) attribute;
     }
 
     /**

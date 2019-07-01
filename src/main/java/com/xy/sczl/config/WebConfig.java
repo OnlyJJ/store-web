@@ -11,6 +11,7 @@ import com.xy.sczl.filters.AuthenticationInterceptor;
 
 
 /**
+ * 拦截器
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer  {

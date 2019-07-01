@@ -1,5 +1,8 @@
 package com.xy.sczl.dao;
 
-public interface UserInfoMapper {
+import com.xy.sczl.entity.UserInfoEntity;
 
+public interface UserInfoMapper {
+	
+	UserInfoEntity findByUserId(String userId);
 }

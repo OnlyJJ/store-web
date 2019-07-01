@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 商品类型
  * 
  */
-public class ProductType implements Serializable {
+public class ProductTypeEntity implements Serializable {
 	/**
 	 * 
 	 */

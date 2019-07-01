@@ -1,7 +1,7 @@
 package com.xy.sczl.common.constants;
 
 /**
- * 
+ * 常量池
  */
 public class Constants {
 	public static final String LOGIN_USER = "login_user";
@@ -11,10 +11,10 @@ public class Constants {
     public static final int IMG_HEIGHT = 300;
 
     public static class OrderStatus {
-        public static final Integer WAIT_PAY = 0;//代付款
-        public static final Integer PAYED = 1;//已付款
-        public static final Integer SHIPPED = 2;//已发货
-        public static final Integer DELETED = 3;//已删除
-        public static final Integer ENDED = 4;//已完成
+    	public static final Integer WAIT_PAY = 0;//代付款
+    	public static final Integer PAYED = 1;//已付款
+    	public static final Integer SHIPPED = 2;//已发货
+    	public static final Integer DELETED = 3;//已删除
+    	public static final Integer ENDED = 4;//已完成
     }
 }

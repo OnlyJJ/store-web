@@ -1,5 +1,6 @@
 
 spring:
+  # 数据源配置
   datasource:
       url: jdbc:mysql://192.168.1.94:3306/ayg_test?autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
       username: root
@@ -8,20 +9,24 @@ spring:
       
   # 配置直接访问templates下的html
   resources:    static-locations: classpath:/static,classpath:/templates  
+  # mvc相关配置
   mvc:      view:        prefix: /WEB-INF/views/        suffix: .jsp
         
   # 日志
   output: 
     ansi:      enabled: always
-      mybatis:  mapper-locations: classpath:/mapper/**/*Mapper.xml    
+
+# 配置扫描路径    mybatis:  mapper-locations: classpath:/mapper/**/*Mapper.xml    
   
-  
+# 工程配置 
 server:
     servlet: 
+      # 访问路径
       context-path: /
-    port: 8081
+       # 访问端口
+    port: 8081 
       
-      
+# 自定义的一些属性      
 app:
   name: 丝绸之路
   version: 1.0
