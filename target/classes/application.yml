@@ -1,0 +1,35 @@
+
+spring:
+  datasource:
+      url: jdbc:mysql://192.168.1.94:3306/ayg_test?autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: root
+      driverClassName: com.mysql.jdbc.Driver
+      
+  # 配置直接访问templates下的html
+  resources:    static-locations: classpath:/static,classpath:/templates  
+  mvc:      view:        prefix: /WEB-INF/views/        suffix: .jsp
+        
+  # 日志
+  output: 
+    ansi:      enabled: always
+      mybatis:  mapper-locations: classpath:/mapper/**/*Mapper.xml    
+  
+  
+server:
+    servlet: 
+      context-path: /
+    port: 8081
+      
+      
+app:
+  name: 丝绸之路
+  version: 1.0
+  copyright: 2019
+  
+user:
+  cookie: 
+    name: shop-demo-cookie
+    age: 86400
+    
+  
