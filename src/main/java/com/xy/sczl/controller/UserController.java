@@ -42,7 +42,7 @@ public class UserController {
     }
     
     // 点击注册时处理的数据
-    @RequestMapping(value = "/reginfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reginfo(HttpServletRequest request) {
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
