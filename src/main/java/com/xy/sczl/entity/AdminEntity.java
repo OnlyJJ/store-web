@@ -1,6 +1,5 @@
 package com.xy.sczl.entity;
 
-import java.io.Serializable;
 
 import com.xy.sczl.common.base.BaseModel;
 
@@ -8,21 +7,18 @@ import com.xy.sczl.common.base.BaseModel;
  * 管理员
  * 
  */
+@SuppressWarnings("serial")
 public class AdminEntity extends BaseModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String uid;
+	private String userId;
 	private String username;//账户名
 	private String password;//密码
 
-	public String getUid() {
-		return uid;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getUsername() {
