@@ -3,9 +3,9 @@ package com.xy.sczl.common.utils;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 
 import com.xy.sczl.common.constants.Constants;
+import com.xy.sczl.entity.AdminEntity;
 
 
 /**
@@ -22,7 +22,7 @@ public class AdminUtil {
      * @param session
      * @param admin
      */
-    public static void saveAdminToSession(HttpSession session, Admin admin) {
+    public static void saveAdminToSession(HttpSession session, AdminEntity admin) {
         UserUtil.deleteUserFromSession(session);
         session.setAttribute(ADMIN,admin);
     }
@@ -33,9 +33,9 @@ public class AdminUtil {
      * @param session
      * @return
      */
-    public static Admin getAdminFromSession(HttpSession session) {
+    public static AdminEntity getAdminFromSession(HttpSession session) {
         Object attribute = session.getAttribute(ADMIN);
-        return attribute == null ? null : (Admin) attribute;
+        return attribute == null ? null : (AdminEntity) attribute;
     }
 
     /**

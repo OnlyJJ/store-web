@@ -26,7 +26,7 @@
         <h2 class="form-signin-heading">管理员注册</h2>
 
         <div class="form-group">
-            <input type="text" class="form-control" name="username" placeholder="账号" required autofocus>
+            <input type="text" class="form-control" name="userId" placeholder="账号" required autofocus>
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name="password" placeholder="密码" required>

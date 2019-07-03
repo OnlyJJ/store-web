@@ -27,6 +27,8 @@
 		<jackson.version>2.9.8</jackson.version>
 		<druid.version>1.0.31</druid.version>
 		<fastjson.version>1.2.33</fastjson.version>
+		<redisson.version>2.10.6</redisson.version>
+		<protostuff.version>1.5.9</protostuff.version>
 	</properties>
 
 	<dependencies>
@@ -36,6 +38,29 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<!-- 缓存 -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>${redisson.version}</version>
+		</dependency>
+		
+		<!-- 序列化 -->
+		<dependency>
+			<groupId>io.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+			<version>${protostuff.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.protostuff</groupId>
+			<artifactId>protostuff-runtime</artifactId>
+			<version>${protostuff.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
