@@ -28,7 +28,8 @@ public class MainController {
 		// ModelAndView是前端数据模型，用于封装controller返回的数据，包括：
 		// 1、指定返回到的页面（即返回到哪里）
 		// 2、返回什么（即数据，前面是key，后面是具体的数据，前端页面从key中取值）
-		model = new ModelAndView("index");
+		model = new ModelAndView();
+		model.setViewName("index");
 		// 数据模型
 //		model.addObject("newProductList", productService.findNew());
 //		model.addObject("popProductList", productService.findPop());

@@ -32,10 +32,10 @@ public class UserUtil {
      * @param session
      * @return
      */
-    public static UserInfoEntity getUserFromSession(HttpSession session) {
-        Object attribute = session.getAttribute(USER);
-        return attribute == null ? null : (UserInfoEntity) attribute;
-    }
+//    public static UserInfoEntity getUserFromSession(HttpSession session) {
+//        Object attribute = session.getAttribute(USER);
+//        return attribute == null ? null : (UserInfoEntity) attribute;
+//    }
 
     /**
      * 从Session中删除登陆用户的个人信息

@@ -21,8 +21,8 @@
             }, 4000);
         </script>
     </c:if>
-    <form:form role="form" action="${ctx}/user/reg"
-               method="post" id="regForm" class="form-signin">
+    <form:form role="form" action="${ctx}/user/reginfo"
+               id="regForm" class="form-signin">
         <h2 class="form-signin-heading">用户注册</h2>
 
         <div class="form-group">

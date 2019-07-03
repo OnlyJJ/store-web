@@ -2,23 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xy.sczl.dao.UserInfoMapper" >
   <resultMap id="vo" type="com.xy.sczl.entity.UserInfoEntity" >
-  	<!-- column：对应数据库中，表的字段
-  		 property：对应实体类的字段，两者的名称也可以不一样，如表中的字段为id_，实体类为id
-  	 -->
-    <result column="id" property="id"  />
+    <result column="id" property="id" />
+    <result column="user_name" property="userName" />
+    <result column="password" property="password" />
+    <result column="is_deleted" property="isDeleted" />
   </resultMap>
   
-  <!-- 插入 -->
-  <insert id="insert"></insert>
+
+  <insert id="insert">
+  	insert into user_info (user_name, password) value (#{0}, #{1})
+  </insert>
   
-  <!-- 修改 -->
   <update id="update"></update>
   
-  <!-- 查询 -->
+
   <select id="findByUserId" resultMap="vo">
-  	select * from user_info where userId = #{userId}
+  	select * from user_info where user_name = #{userId} and password = #{password}
   </select>
   
-  <!-- 删除 -->
+  <select id="findByUserName" resultMap="vo">
+  	select * from user_info where user_name = #{0}
+  </select>
+  
+   <select id="getUserNameAndPwd" resultMap="vo">
+  	select * from user_info where user_name = #{0} and password = #{1}
+  </select>
+  
+
   <delete id="delete"></delete>
 </mapper>

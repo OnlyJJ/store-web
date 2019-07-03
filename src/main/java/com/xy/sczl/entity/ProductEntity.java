@@ -10,5 +10,5 @@ import com.xy.sczl.common.base.BaseModel;
  */
 @SuppressWarnings("serial")
 public class ProductEntity extends BaseModel {
-    
+    private String productName;
 }

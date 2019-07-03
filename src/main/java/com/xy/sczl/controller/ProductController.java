@@ -59,11 +59,12 @@ public class ProductController {
     public ModelAndView listProduct(ModelAndView model, HttpServletRequest request) {
     	// 封装page分页数据
     	Page<ProductEntity> page = new Page<ProductEntity>(request);
-//      productService.findProducts(page);
     	page.setPageNo(1);
     	page.setPageSize(20);
     	page.setTotalCount(0);
     	page.setResult(new ArrayList<ProductEntity>());
+    	
+//      page = productService.findProducts(page);
     	
     	// 前端分页数据，必须使用page封装，否则解析失败
         model.addObject("page", page);

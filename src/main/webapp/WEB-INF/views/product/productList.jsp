@@ -21,7 +21,7 @@
                 <a href="${ctx}/product/${product.id}"><img class="img-thumbnail" src="${ctx}${product.masterPic.url}"
                                                             style="width: 140px; height: 140px;"></a>
 
-                <p>${product.title}</p>
+                <p>${product.productName}</p>
 
                 <p class="price">${product.point}</p>
 
