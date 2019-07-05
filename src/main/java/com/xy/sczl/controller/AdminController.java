@@ -56,10 +56,9 @@ public class AdminController {
     public String doReg(AdminEntity admin, HttpSession session) {
 //        adminService.save(admin);
     	// 暂时使用缓存
-    	String s = null;
-    	s.toString();
-    	redisCache.setString(admin.getUserId(), admin.getPassword());
-        return "redirect:/";
+    	throw new BizException(ErrorCode.ErrorCode_1002);
+//    	redisCache.setString(admin.getUserId(), admin.getPassword());
+//        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

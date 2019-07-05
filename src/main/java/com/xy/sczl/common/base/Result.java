@@ -1,12 +1,14 @@
 package com.xy.sczl.common.base;
 
+import org.springframework.web.servlet.ModelAndView;
+
 /**
  * 返回前端的结果封装
  * @author dell
  *
  * @param <T>
  */
-public class BaseResult<T> {
+public class Result<T> extends ModelAndView {
 	/**
 	 * 响应码
 	 */
@@ -20,7 +22,12 @@ public class BaseResult<T> {
 	 */
 	private T data;
 	
-	public BaseResult(int code, String msg) {
+	public Result() {
+		super();
+	}
+	
+	public Result(int code, String msg) {
+		super();
 		this.code = code;
 		this.msg = msg;
 	}
