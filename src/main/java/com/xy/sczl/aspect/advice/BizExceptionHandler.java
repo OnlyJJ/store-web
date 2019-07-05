@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.xy.sczl.common.base.BaseResult;
-import com.xy.sczl.common.constants.ErrorCode;
 import com.xy.sczl.common.exception.BizException;
 
 /**
@@ -16,28 +16,29 @@ import com.xy.sczl.common.exception.BizException;
  *
  */
 @ControllerAdvice
-@ResponseBody
 public class BizExceptionHandler {
 
 	public static Logger LOG = LoggerFactory.getLogger(BizExceptionHandler.class);
 	
 	/**
-	 * 未知异常统一抛出此异常
+	 * 未知异常统一抛出到错误页面
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(Exception.class)
-	public BaseResult<?> handle(Exception e) {
+	public ModelAndView handle(Exception e) {
 		LOG.error(e.getMessage(), e);
-		return new BaseResult(ErrorCode.Error.getCode(), ErrorCode.Error.getMsg());
+		ModelAndView model = new ModelAndView("/error/404");
+		return model;
 	}
 	
 	/**
-	 * 自定义异常
+	 * 自定义异常，返回json
 	 * @param e
 	 * @return
 	 */
 	@ExceptionHandler(BizException.class)
+	@ResponseBody
 	public BaseResult<?> handle(BizException e) {
 		LOG.error(e.getMessage(), e);
 		return new BaseResult(e.getCode(), e.getMessage());

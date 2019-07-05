@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xy.sczl.common.constants.Constants;
+import com.xy.sczl.common.constants.ErrorCode;
+import com.xy.sczl.common.exception.BizException;
 import com.xy.sczl.common.redis.RedisCache;
 import com.xy.sczl.common.utils.AdminUtil;
 import com.xy.sczl.common.utils.Image;
@@ -54,6 +56,8 @@ public class AdminController {
     public String doReg(AdminEntity admin, HttpSession session) {
 //        adminService.save(admin);
     	// 暂时使用缓存
+    	String s = null;
+    	s.toString();
     	redisCache.setString(admin.getUserId(), admin.getPassword());
         return "redirect:/";
     }
