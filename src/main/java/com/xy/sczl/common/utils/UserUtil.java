@@ -24,6 +24,7 @@ public class UserUtil {
     public static void saveUserToSession(HttpSession session, UserInfoEntity user) {
         AdminUtil.deleteAdminFromSession(session);
         session.setAttribute(USER, user);
+        
     }
 
     /**
@@ -32,10 +33,10 @@ public class UserUtil {
      * @param session
      * @return
      */
-//    public static UserInfoEntity getUserFromSession(HttpSession session) {
-//        Object attribute = session.getAttribute(USER);
-//        return attribute == null ? null : (UserInfoEntity) attribute;
-//    }
+    public static UserInfoEntity getUserFromSession(HttpSession session) {
+        Object attribute = session.getAttribute(USER);
+        return attribute == null ? null : (UserInfoEntity) attribute;
+    }
 
     /**
      * 从Session中删除登陆用户的个人信息
@@ -45,4 +46,13 @@ public class UserUtil {
     public static void deleteUserFromSession(HttpSession session) {
         session.removeAttribute(USER);
     }
+	/**
+	 * 生成用户id
+	 * @return
+	 */
+	public static String genUserId() {
+		long time = System.currentTimeMillis();
+		String timeStr = String.valueOf(time);
+		return timeStr.substring(timeStr.length()-6, timeStr.length());
+	}
 }

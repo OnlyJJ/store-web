@@ -14,15 +14,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 	private UserInfoMapper userInfoMapper;
 	
 	@Override
-	public int addUser(String userName, String password) {
+	public int addUser(String userId,String userName, String password) {
 		// TODO Auto-generated method stub
-		return userInfoMapper.insert(userName, password);
+		return userInfoMapper.insert(userId, userName, password);
 	}
 
 	@Override
 	public UserInfoEntity getUserNameAndPwd(String userName, String password) {
 		// TODO Auto-generated method stub
 		return userInfoMapper.getUserNameAndPwd(userName, password);
+	}
+
+	@Override
+	public UserInfoEntity findByUserName(String userName) {
+		
+		return userInfoMapper.findByUserName(userName);
 	}
 
 }

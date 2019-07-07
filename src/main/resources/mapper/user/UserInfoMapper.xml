@@ -3,14 +3,21 @@
 <mapper namespace="com.xy.sczl.dao.UserInfoMapper" >
   <resultMap id="vo" type="com.xy.sczl.entity.UserInfoEntity" >
     <result column="id" property="id" />
+    <result column="userid" property="userId" />
     <result column="user_name" property="userName" />
     <result column="password" property="password" />
-    <result column="is_deleted" property="isDeleted" />
+    <result column="phone_number" property="phoneNumber" />
+    <result column="province" property="province" />
+    <result column="city" property="city" />
+    <result column="county" property="county" />
+    <result column="address" property="address" />
+    <result column="user_name" property="userName" />
+    <result column="create_time" property="createTime" />
   </resultMap>
   
 
   <insert id="insert">
-  	insert into user_info (user_name, password) value (#{0}, #{1})
+  	insert into user_info (userid, user_name, password) value (#{userId}, #{userName}, #{password})
   </insert>
   
   <update id="update"></update>

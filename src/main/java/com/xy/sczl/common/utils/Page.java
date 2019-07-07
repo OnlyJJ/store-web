@@ -17,14 +17,14 @@ public class Page<T> {
 
 	// -- 分页参数 --//
 	protected int pageNo = 1;
-	protected int pageSize = -1;
+	protected int pageSize = 10;
 	protected String orderBy = null;
 	protected String order = null;
 	protected boolean autoCount = true;
 
 	// -- 返回结果 --//
 	protected List<T> result = Lists.newArrayList();
-	protected long totalCount = -1;
+	protected long totalCount = 0;
 
 	// -- 构造函数 --//
 	public Page(int pageNo, int pageSize) {

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +33,9 @@ import com.xy.sczl.common.utils.Page;
 import com.xy.sczl.entity.AdminEntity;
 import com.xy.sczl.entity.PictureEntity;
 import com.xy.sczl.entity.ProductEntity;
-
+import com.xy.sczl.model.dto.ProductInfoDTO;
+import com.xy.sczl.model.param.ProductInfoParam;
+import com.xy.sczl.service.ProductService;
 /**
  * 管理后台
  */
@@ -41,6 +46,9 @@ public class AdminController {
     
     @Resource
     RedisCache redisCache;
+    
+    @Autowired
+	private ProductService productService;
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
@@ -56,9 +64,9 @@ public class AdminController {
     public String doReg(AdminEntity admin, HttpSession session) {
 //        adminService.save(admin);
     	// 暂时使用缓存
-    	throw new BizException(ErrorCode.ErrorCode_1002);
-//    	redisCache.setString(admin.getUserId(), admin.getPassword());
-//        return "redirect:/";
+//    	throw new BizException(ErrorCode.ErrorCode_1002);
+    	redisCache.setString(admin.getUserId(), admin.getPassword());
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -71,7 +79,7 @@ public class AdminController {
         if (redisCache.exits(admin.getUserId())) {
         	AdminUtil.saveAdminToSession(session, admin);
             logger.debug("管理员[{}]登陆成功",admin.getUsername());
-            return "redirect:/admin/product";
+            return "redirect:/admin/product?p=1&ps=" + Page.DEFAULT_PAGE_SIZE;
         }
         return "redirect:/admin/login?errorPwd=true";
     }
@@ -88,15 +96,38 @@ public class AdminController {
      * @param request
      * @return
      */
+    // TODO 怎么添加把所有商品添加到列表
     @RequestMapping(value = "/product",method = RequestMethod.GET)
     public ModelAndView admin(ModelAndView model, HttpSession session, HttpServletRequest request) {
+    	int pageNo = Integer.parseInt(request.getParameter("p"));
+    	int pageSize = Integer.parseInt(request.getParameter("ps"));
         Page<ProductEntity> page = new Page<>(request);
-        page.setPageNo(1);
-        page.setPageSize(20);
-        page.setResult(new ArrayList<ProductEntity>());
-        page.setTotalCount(0);
-//        productService.findProducts(page);
+        List<ProductEntity> products = productService.findProducts(); // 100
+        List<ProductEntity> result = new ArrayList<>();
+        int size = 0;
+        if(products != null) {
+        	// 返回当前页数据， 第一页，每页pageSize条，返回0~20
+        	// 第二页，20~40
+        	// 第三页 40~60
+        	int index = pageNo > 1 ? (pageNo-1) * pageSize : 0;
+        	int end = pageNo * pageSize;
+        	size = products.size();
+        	for(int i=0; i<pageSize; i++) {
+        		// 如果size=23条，pageNo=2页，每页pageSize=20条
+        		// 期望：从20~23
+        		if(index >= size) {
+        			break;
+        		}
+        		ProductEntity product = products.get(index);
+        		result.add(product);
+        		index++;
+        	}
+        }
         
+        page.setPageNo(pageNo);
+        page.setPageSize(pageSize);
+        page.setResult(result);
+        page.setTotalCount(size);
         model.addObject("page", page);
         model.setViewName("admin/product/productAdmin");
         return model;
@@ -123,9 +154,9 @@ public class AdminController {
      * @return 上传后，返回到商品列表
      */
     @RequestMapping(value = "/product/new", method = RequestMethod.POST)
-    public String doNew(ProductEntity product, HttpSession session, @RequestParam("imgFile") MultipartFile file) {
+    public String doNew(ProductInfoParam propa, HttpSession session, @RequestParam("imgFile") MultipartFile file) {
         if (file!=null&&!file.isEmpty()) {
-            uploadImage(product, session, file);
+            uploadImage(propa, session, file);
         }
 //        product.setCreateTime(new Date());
 //        productService.save(product);
@@ -155,21 +186,27 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value = "/product/edit", method = RequestMethod.POST)
-    public ModelAndView doEdit(ModelAndView model, ProductEntity product, HttpSession session, @RequestParam(name = "file",required = false) MultipartFile file) {
+    public ModelAndView doEdit(ModelAndView model, ProductInfoParam propa, HttpSession session, @RequestParam(name = "file",required = false) MultipartFile file) {
         if (file!=null&&!file.isEmpty()) {
-            uploadImage(product, session, file);
+            uploadImage(propa, session, file);
         }
 //        productService.save(product);
         model.setViewName("redirect:/admin/product");
         return model;
     }
 
-    private void uploadImage(ProductEntity product, HttpSession session, MultipartFile file) {
+    private void uploadImage(ProductInfoParam propa, HttpSession session, MultipartFile file) {
         String fileName = generateFileName();
         String path = generateFilePath(session);
         String serverFile = path + "/" + fileName;
         PictureEntity picture = uploadAndSaveImg(session, file, fileName, path, serverFile);
 //        product.setMasterPic(picture);
+        ProductInfoDTO prodto = new ProductInfoDTO();
+        // 图片路径
+        prodto.setImgFile("/upload/" + fileName);
+        BeanUtils.copyProperties(propa, prodto);
+        // 添加商品信息
+        productService.insert(prodto);
     }
 
     private String generateFilePath(HttpSession session) {

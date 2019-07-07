@@ -1,34 +1,35 @@
 package com.xy.sczl.controller;
 
-import javax.servlet.http.Cookie;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.xy.sczl.dao.UserInfoMapper;
+import com.xy.sczl.common.redis.RedisCache;
+import com.xy.sczl.common.utils.UserUtil;
 import com.xy.sczl.entity.UserInfoEntity;
 import com.xy.sczl.service.UserInfoService;
-import com.xy.sczl.service.impl.UserInfoServiceImpl;
 
-import ch.qos.logback.classic.Logger;
 
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	@Autowired
-	private UserInfoMapper userInfoMapper;
+	@Resource
+    RedisCache redisCache;
 	
 	@RequestMapping(method = RequestMethod.GET)
     public String index() {
@@ -48,17 +49,20 @@ public class UserController {
         String password = request.getParameter("password");
 //        System.err.println(userName);
 //        System.err.println(password);
-        if (userName == null) {
+        // str == null   str = "";
+        if (StringUtils.isEmpty(userName)) {
         	return "请填写用户名";
         }
-        if (password == null) {
+        if (StringUtils.isEmpty(password)) {
         	return "请填写密码";
         }
-        UserInfoEntity user = userInfoMapper.findByUserName(userName);
+        UserInfoEntity user = userInfoService.findByUserName(userName);
         if (user != null) {
         	return "该用户已存在，请重新注册";
         }
-        userInfoService.addUser(userName, password);
+        String userId = UserUtil.genUserId();
+        userInfoService.addUser(userId, userName, password);
+        // UserAccount userId
         return "user/userLogin";
     }
     
@@ -69,12 +73,12 @@ public class UserController {
     }
     
     // 点击登录时处理的数据
-    @RequestMapping(value = "/logininfo", method = RequestMethod.POST)
-    public String logininfo(HttpServletRequest request, HttpSession session) {
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String logininfo(@RequestParam("username") String userName, 
+    		@RequestParam("password") String password, HttpSession session) {
+    	System.err.println("username=" + userName  + ",pwd=" + password);
         // 判断用户名或密码是否为空
-        if (StringUtils.isEmpty(request.getParameter("username"))||StringUtils.isEmpty(request.getParameter("password")))
+        if (StringUtils.isEmpty(userName)||StringUtils.isEmpty(password))
         	{
         	return "请填写登录信息";
         }
@@ -82,9 +86,9 @@ public class UserController {
         if (user == null) {
         	return "用户名或密码错误";
         }
-        // 保存用户 cookie
-        Cookie userCookie = new Cookie("username", userName);
-        
-        return "user/index";
+		UserUtil.saveUserToSession(session, user);
+        logger.debug("用户[{}]登陆成功",user.getUserName());
+        redisCache.setString(user.getUserId(), user.getUserId(), 60*60*8);
+        return "redirect:/user/index";
     }
 }

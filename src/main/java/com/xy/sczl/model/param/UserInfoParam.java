@@ -1,8 +1,16 @@
 package com.xy.sczl.model.param;
 
 public class UserInfoParam {
+	private String userId;
 	private String userName;
 	private String password;
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getUserName() {
 		return userName;
 	}

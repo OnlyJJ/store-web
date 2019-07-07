@@ -2,7 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xy.sczl.dao.ProductMapper" >
   <resultMap id="vo" type="com.xy.sczl.entity.ProductEntity" >
+  	<result column="id" property="id" />
+  	<result column="product_id" property="productId" />
+  	<result column="product_name" property="title" />
+  	<result column="product_price" property="point" />
+  	<result column="product_code" property="code" />
+  	<result column="product_model" property="model" />
+  	<result column="product_stock" property="stock" />
+  	<result column="product_pic" property="imgFile" />
+  	<result column="product_note" property="note" />
   </resultMap>
   
+  <insert id="insert">
+  	insert into product_info (product_id, product_name, product_price,
+  	product_code, product_model, product_stock,product_pic, product_note) 
+  	value (#{productId}, #{title}, #{point}, #{code}, #{model}, #{stock}, #{imgFile},#{note})
+  </insert>
+  
+  <select id="findById" resultMap="vo">
+  	select * from product_info where product_id = #{productId}
+  	limit 1
+  </select>
+  
+  <select id="findProducts" resultMap="vo">
+  	select * from product_info
+  </select>
   
 </mapper>
